@@ -1,0 +1,559 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RegistreringarModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="RegistreringarModelStoreContainer">
+    <EntitySet Name="Banor" EntityType="RegistreringarModel.Store.Banor" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Kanoter" EntityType="RegistreringarModel.Store.Kanoter" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Klasser" EntityType="RegistreringarModel.Store.Klasser" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="StartOchSlut" EntityType="RegistreringarModel.Store.StartOchSlut" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Registreringar" EntityType="RegistreringarModel.Store.Registreringar" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Forseningsavgift" EntityType="RegistreringarModel.Store.Forseningsavgift" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvoiceSet" EntityType="RegistreringarModel.Store.InvoiceSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DeltagareSet" EntityType="RegistreringarModel.Store.DeltagareSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Rabatter" EntityType="RegistreringarModel.Store.Rabatter" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Registreringar_Banor" Association="RegistreringarModel.Store.FK_Registreringar_Banor">
+      <End Role="Banor" EntitySet="Banor" />
+      <End Role="Registreringar" EntitySet="Registreringar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registreringar_Kanoter" Association="RegistreringarModel.Store.FK_Registreringar_Kanoter">
+      <End Role="Kanoter" EntitySet="Kanoter" />
+      <End Role="Registreringar" EntitySet="Registreringar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registreringar_Klasser" Association="RegistreringarModel.Store.FK_Registreringar_Klasser">
+      <End Role="Klasser" EntitySet="Klasser" />
+      <End Role="Registreringar" EntitySet="Registreringar" />
+    </AssociationSet>
+    <AssociationSet Name="InvoiceRegistreringar" Association="RegistreringarModel.Store.InvoiceRegistreringar">
+      <End Role="Invoice" EntitySet="InvoiceSet" />
+      <End Role="Registreringar" EntitySet="Registreringar" />
+    </AssociationSet>
+    <AssociationSet Name="RegistreringarDeltagare" Association="RegistreringarModel.Store.RegistreringarDeltagare">
+      <End Role="Registreringar" EntitySet="Registreringar" />
+      <End Role="Deltagare" EntitySet="DeltagareSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Banor">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Namn" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Avgift" Type="int" Nullable="false" />
+    <Property Name="AntalDeltagare" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Kanoter">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Namn" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Avgift" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Klasser">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Namn" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="StartOchSlut">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Namn" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Datum" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Registreringar">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Adress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Telefon" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Epost" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Ranking" Type="bit" Nullable="false" />
+    <Property Name="Startnummer" Type="int" Nullable="false" />
+    <Property Name="Lagnamn" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Kanot" Type="int" Nullable="false" />
+    <Property Name="Klubb" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Klass" Type="int" Nullable="false" />
+    <Property Name="HarBetalt" Type="bit" Nullable="false" />
+    <Property Name="Forseningsavgift" Type="int" Nullable="false" />
+    <Property Name="Registreringstid" Type="datetime" Nullable="false" />
+    <Property Name="Kommentar" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Bana" Type="int" Nullable="false" />
+    <Property Name="Rabatt" Type="int" Nullable="false" />
+    <Property Name="PaysonToken" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Forseningsavgift">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FranDatum" Type="datetime" Nullable="false" />
+    <Property Name="Summa" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvoiceSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Box" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Postnummer" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Organisationsnummer" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Postort" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Postadress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Namn" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Att" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Registreringar_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DeltagareSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Förnamn" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Efternamn" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Personnummer" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RegistreringarID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rabatter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Kod" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Summa" Type="int" Nullable="false" />
+    <Property Name="Beskrivning" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Registreringar_Banor">
+    <End Role="Banor" Type="RegistreringarModel.Store.Banor" Multiplicity="1" />
+    <End Role="Registreringar" Type="RegistreringarModel.Store.Registreringar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Banor">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Registreringar">
+        <PropertyRef Name="Bana" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Registreringar_Kanoter">
+    <End Role="Kanoter" Type="RegistreringarModel.Store.Kanoter" Multiplicity="1" />
+    <End Role="Registreringar" Type="RegistreringarModel.Store.Registreringar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kanoter">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Registreringar">
+        <PropertyRef Name="Kanot" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Registreringar_Klasser">
+    <End Role="Klasser" Type="RegistreringarModel.Store.Klasser" Multiplicity="1" />
+    <End Role="Registreringar" Type="RegistreringarModel.Store.Registreringar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Klasser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Registreringar">
+        <PropertyRef Name="Klass" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvoiceRegistreringar">
+    <End Role="Invoice" Type="RegistreringarModel.Store.InvoiceSet" Multiplicity="*" />
+    <End Role="Registreringar" Type="RegistreringarModel.Store.Registreringar" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Registreringar">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Invoice">
+        <PropertyRef Name="Registreringar_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RegistreringarDeltagare">
+    <End Role="Registreringar" Type="RegistreringarModel.Store.Registreringar" Multiplicity="1" />
+    <End Role="Deltagare" Type="RegistreringarModel.Store.DeltagareSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Registreringar">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Deltagare">
+        <PropertyRef Name="RegistreringarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RegistreringarModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="UtmaningenEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Banor" EntityType="RegistreringarModel.Banor" />
+          <EntitySet Name="Kanoter" EntityType="RegistreringarModel.Kanoter" />
+          <EntitySet Name="Klasser" EntityType="RegistreringarModel.Klasser" />
+          <EntitySet Name="StartOchSlut" EntityType="RegistreringarModel.StartOchSlut" />
+          <EntitySet Name="Registreringar" EntityType="RegistreringarModel.Registreringar" />
+          <AssociationSet Name="FK_Registreringar_Banor" Association="RegistreringarModel.FK_Registreringar_Banor">
+            <End Role="Banor" EntitySet="Banor" />
+            <End Role="Registreringar" EntitySet="Registreringar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registreringar_Kanoter" Association="RegistreringarModel.FK_Registreringar_Kanoter">
+            <End Role="Kanoter" EntitySet="Kanoter" />
+            <End Role="Registreringar" EntitySet="Registreringar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registreringar_Klasser" Association="RegistreringarModel.FK_Registreringar_Klasser">
+            <End Role="Klasser" EntitySet="Klasser" />
+            <End Role="Registreringar" EntitySet="Registreringar" />
+          </AssociationSet>
+          <EntitySet Name="Forseningsavgift" EntityType="RegistreringarModel.Forseningsavgift" />
+          <EntitySet Name="InvoiceSet" EntityType="RegistreringarModel.Invoice" />
+          <AssociationSet Name="InvoiceRegistreringar" Association="RegistreringarModel.InvoiceRegistreringar">
+            <End Role="Invoice" EntitySet="InvoiceSet" />
+            <End Role="Registreringar" EntitySet="Registreringar" />
+          </AssociationSet>
+          <EntitySet Name="DeltagareSet" EntityType="RegistreringarModel.Deltagare" />
+          <AssociationSet Name="RegistreringarDeltagare" Association="RegistreringarModel.RegistreringarDeltagare">
+            <End Role="Registreringar" EntitySet="Registreringar" />
+            <End Role="Deltagare" EntitySet="DeltagareSet" />
+          </AssociationSet>
+          <EntitySet Name="Rabatter" EntityType="RegistreringarModel.Rabatt" />
+        </EntityContainer>
+        <EntityType Name="Banor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Namn" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Type="Int32" Name="Avgift" Nullable="false" />
+          <NavigationProperty Name="Registreringar" Relationship="RegistreringarModel.FK_Registreringar_Banor" FromRole="Banor" ToRole="Registreringar" />
+          <Property Type="Int32" Name="AntalDeltagare" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kanoter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Namn" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Avgift" />
+          <NavigationProperty Name="Registreringar" Relationship="RegistreringarModel.FK_Registreringar_Kanoter" FromRole="Kanoter" ToRole="Registreringar" />
+        </EntityType>
+        <EntityType Name="Klasser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Namn" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Registreringar" Relationship="RegistreringarModel.FK_Registreringar_Klasser" FromRole="Klasser" ToRole="Registreringar" />
+        </EntityType>
+        <EntityType Name="StartOchSlut">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Namn" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="Datum" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Registreringar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Adress" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Telefon" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Epost" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Ranking" Nullable="false" />
+          <Property Type="Int32" Name="Startnummer" Nullable="false" />
+          <Property Type="String" Name="Lagnamn" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Kanot" Nullable="false" />
+          <Property Type="String" Name="Klubb" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Klass" Nullable="false" />
+          <Property Type="Boolean" Name="HarBetalt" Nullable="false" />
+          <Property Type="Int32" Name="Forseningsavgift" Nullable="false" />
+          <Property Type="DateTime" Name="Registreringstid" Nullable="false" />
+          <Property Type="String" Name="Kommentar" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Bana" Nullable="false" />
+          <NavigationProperty Name="Banor" Relationship="RegistreringarModel.FK_Registreringar_Banor" FromRole="Registreringar" ToRole="Banor" />
+          <NavigationProperty Name="Kanoter" Relationship="RegistreringarModel.FK_Registreringar_Kanoter" FromRole="Registreringar" ToRole="Kanoter" />
+          <NavigationProperty Name="Klasser" Relationship="RegistreringarModel.FK_Registreringar_Klasser" FromRole="Registreringar" ToRole="Klasser" />
+          <NavigationProperty Name="Invoice" Relationship="RegistreringarModel.InvoiceRegistreringar" FromRole="Registreringar" ToRole="Invoice" />
+          <Property Type="Int32" Name="Rabatt" Nullable="false" />
+          <NavigationProperty Name="Deltagare" Relationship="RegistreringarModel.RegistreringarDeltagare" FromRole="Registreringar" ToRole="Deltagare" />
+          <Property Type="String" Name="PaysonToken" Nullable="true" />
+          </EntityType>
+        <Association Name="FK_Registreringar_Banor">
+          <End Type="RegistreringarModel.Banor" Role="Banor" Multiplicity="1" />
+          <End Type="RegistreringarModel.Registreringar" Role="Registreringar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Banor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Registreringar">
+              <PropertyRef Name="Bana" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registreringar_Kanoter">
+          <End Type="RegistreringarModel.Kanoter" Role="Kanoter" Multiplicity="1" />
+          <End Type="RegistreringarModel.Registreringar" Role="Registreringar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kanoter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Registreringar">
+              <PropertyRef Name="Kanot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registreringar_Klasser">
+          <End Type="RegistreringarModel.Klasser" Role="Klasser" Multiplicity="1" />
+          <End Type="RegistreringarModel.Registreringar" Role="Registreringar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klasser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Registreringar">
+              <PropertyRef Name="Klass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Forseningsavgift">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="FranDatum" Nullable="false" />
+          <Property Type="Int32" Name="Summa" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Registreringar" Relationship="RegistreringarModel.InvoiceRegistreringar" FromRole="Invoice" ToRole="Registreringar" />
+          <Property Type="String" Name="Box" Nullable="true" />
+          <Property Type="String" Name="Postnummer" Nullable="false" />
+          <Property Type="String" Name="Organisationsnummer" Nullable="false" />
+          <Property Type="String" Name="Postort" Nullable="false" />
+          <Property Type="String" Name="Postadress" Nullable="false" />
+          <Property Type="String" Name="Namn" Nullable="false" />
+          <Property Type="String" Name="Att" Nullable="true" />
+        </EntityType>
+        <Association Name="InvoiceRegistreringar">
+          <End Type="RegistreringarModel.Invoice" Role="Invoice" Multiplicity="0..1" >
+          </End>
+          <End Type="RegistreringarModel.Registreringar" Role="Registreringar" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+        </Association>
+        <EntityType Name="Deltagare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Förnamn" Nullable="false" />
+          <Property Type="String" Name="Efternamn" Nullable="false" />
+          <Property Type="String" Name="Personnummer" Nullable="true" />
+          <Property Type="Int32" Name="RegistreringarID" Nullable="false" />
+        </EntityType>
+        <Association Name="RegistreringarDeltagare">
+          <End Type="RegistreringarModel.Registreringar" Role="Registreringar" Multiplicity="1" />
+          <End Type="RegistreringarModel.Deltagare" Role="Deltagare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registreringar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Deltagare">
+              <PropertyRef Name="RegistreringarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Rabatt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Kod" Nullable="false" />
+          <Property Type="Int32" Name="Summa" Nullable="false" />
+          <Property Type="String" Name="Beskrivning" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="RegistreringarModelStoreContainer" CdmEntityContainer="UtmaningenEntities">
+    <EntitySetMapping Name="Banor">
+      <EntityTypeMapping TypeName="IsTypeOf(RegistreringarModel.Banor)">
+        <MappingFragment StoreEntitySet="Banor">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Namn" ColumnName="Namn" />
+          <ScalarProperty Name="Avgift" ColumnName="Avgift" />
+          <ScalarProperty Name="AntalDeltagare" ColumnName="AntalDeltagare" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kanoter">
+      <EntityTypeMapping TypeName="IsTypeOf(RegistreringarModel.Kanoter)">
+        <MappingFragment StoreEntitySet="Kanoter">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Namn" ColumnName="Namn" />
+          <ScalarProperty Name="Avgift" ColumnName="Avgift" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Klasser">
+      <EntityTypeMapping TypeName="IsTypeOf(RegistreringarModel.Klasser)">
+        <MappingFragment StoreEntitySet="Klasser">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Namn" ColumnName="Namn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StartOchSlut">
+      <EntityTypeMapping TypeName="IsTypeOf(RegistreringarModel.StartOchSlut)">
+        <MappingFragment StoreEntitySet="StartOchSlut">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Namn" ColumnName="Namn" />
+          <ScalarProperty Name="Datum" ColumnName="Datum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Registreringar">
+      <EntityTypeMapping TypeName="IsTypeOf(RegistreringarModel.Registreringar)">
+        <MappingFragment StoreEntitySet="Registreringar">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Adress" ColumnName="Adress" />
+          <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+          <ScalarProperty Name="Epost" ColumnName="Epost" />
+          <ScalarProperty Name="Ranking" ColumnName="Ranking" />
+          <ScalarProperty Name="Startnummer" ColumnName="Startnummer" />
+          <ScalarProperty Name="Lagnamn" ColumnName="Lagnamn" />
+          <ScalarProperty Name="Kanot" ColumnName="Kanot" />
+          <ScalarProperty Name="Klubb" ColumnName="Klubb" />
+          <ScalarProperty Name="Klass" ColumnName="Klass" />
+          <ScalarProperty Name="HarBetalt" ColumnName="HarBetalt" />
+          <ScalarProperty Name="Forseningsavgift" ColumnName="Forseningsavgift" />
+          <ScalarProperty Name="Registreringstid" ColumnName="Registreringstid" />
+          <ScalarProperty Name="Kommentar" ColumnName="Kommentar" />
+          <ScalarProperty Name="Bana" ColumnName="Bana" />
+          <ScalarProperty Name="Rabatt" ColumnName="Rabatt" />
+          <ScalarProperty Name="PaysonToken" ColumnName="PaysonToken" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Forseningsavgift">
+      <EntityTypeMapping TypeName="IsTypeOf(RegistreringarModel.Forseningsavgift)">
+        <MappingFragment StoreEntitySet="Forseningsavgift">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FranDatum" ColumnName="FranDatum" />
+          <ScalarProperty Name="Summa" ColumnName="Summa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceSet">
+      <EntityTypeMapping TypeName="IsTypeOf(RegistreringarModel.Invoice)">
+        <MappingFragment StoreEntitySet="InvoiceSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Box" ColumnName="Box" />
+          <ScalarProperty Name="Postnummer" ColumnName="Postnummer" />
+          <ScalarProperty Name="Organisationsnummer" ColumnName="Organisationsnummer" />
+          <ScalarProperty Name="Postort" ColumnName="Postort" />
+          <ScalarProperty Name="Postadress" ColumnName="Postadress" />
+          <ScalarProperty Name="Namn" ColumnName="Namn" />
+          <ScalarProperty Name="Att" ColumnName="Att" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeltagareSet">
+      <EntityTypeMapping TypeName="IsTypeOf(RegistreringarModel.Deltagare)">
+        <MappingFragment StoreEntitySet="DeltagareSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Förnamn" ColumnName="Förnamn" />
+          <ScalarProperty Name="Efternamn" ColumnName="Efternamn" />
+          <ScalarProperty Name="Personnummer" ColumnName="Personnummer" />
+          <ScalarProperty Name="RegistreringarID" ColumnName="RegistreringarID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rabatter">
+      <EntityTypeMapping TypeName="IsTypeOf(RegistreringarModel.Rabatt)">
+        <MappingFragment StoreEntitySet="Rabatter">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Kod" ColumnName="Kod" />
+          <ScalarProperty Name="Summa" ColumnName="Summa" />
+          <ScalarProperty Name="Beskrivning" ColumnName="Beskrivning" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="InvoiceRegistreringar" TypeName="RegistreringarModel.InvoiceRegistreringar" StoreEntitySet="InvoiceSet">
+      <EndProperty Name="Registreringar">
+        <ScalarProperty Name="ID" ColumnName="Registreringar_ID" />
+      </EndProperty>
+      <EndProperty Name="Invoice">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="DataModel">
+        <EntityTypeShape EntityType="RegistreringarModel.Banor" Width="1.5" PointX="0.75" PointY="2.75" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="RegistreringarModel.Kanoter" Width="1.5" PointX="0.75" PointY="0.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="RegistreringarModel.Klasser" Width="1.5" PointX="5.625" PointY="3" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="RegistreringarModel.StartOchSlut" Width="1.5" PointX="7.5" PointY="0.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="RegistreringarModel.Registreringar" Width="1.625" PointX="3.5" PointY="0.625" Height="5.2494108072916656" />
+        <AssociationConnector Association="RegistreringarModel.FK_Registreringar_Banor" >
+          <ConnectorPoint PointX="2.25" PointY="3.7401432291666667" />
+          <ConnectorPoint PointX="3.5" PointY="3.7401432291666667" />
+        </AssociationConnector>
+        <AssociationConnector Association="RegistreringarModel.FK_Registreringar_Kanoter" >
+          <ConnectorPoint PointX="2.25" PointY="1.6439925130208333" />
+          <ConnectorPoint PointX="3.5" PointY="1.6439925130208333" />
+        </AssociationConnector>
+        <AssociationConnector Association="RegistreringarModel.FK_Registreringar_Klasser" >
+          <ConnectorPoint PointX="5.625" PointY="3.797841796875" />
+          <ConnectorPoint PointX="5.125" PointY="3.797841796875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="RegistreringarModel.Forseningsavgift" Width="1.5" PointX="5.625" PointY="0.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="RegistreringarModel.Invoice" Width="2" PointX="7.5" PointY="3" Height="2.7494921874999996" />
+        <AssociationConnector Association="RegistreringarModel.InvoiceRegistreringar">
+          <ConnectorPoint PointX="7.5" PointY="5.203837890625" />
+          <ConnectorPoint PointX="5.125" PointY="5.203837890625" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="RegistreringarModel.Deltagare" Width="1.5" PointX="10.125" PointY="1.75" Height="1.9802864583333331" />
+        <AssociationConnector Association="RegistreringarModel.RegistreringarDeltagare">
+          <ConnectorPoint PointX="5.125" PointY="2.672841796875" />
+          <ConnectorPoint PointX="10.125" PointY="2.672841796875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="RegistreringarModel.Rabatt" Width="1.5" PointX="10.125" PointY="4" Height="1.7879850260416665" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

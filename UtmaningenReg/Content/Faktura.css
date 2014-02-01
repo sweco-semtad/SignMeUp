@@ -1,0 +1,39 @@
+﻿
+.Faktura-page 
+{
+    padding: 25px;
+}
+
+.header {
+}
+
+.imageHeader {
+    float: left;
+    width: 80%;
+    height: 100px;
+}
+
+.rightheader {
+    float: right;
+    width: 20%;
+}
+
+.betala 
+{
+    padding-top: 20px;
+}
+
+.kontaktuppgifter 
+{
+}
+
+.knappar
+{
+}
+.box
+{
+    background-color: #FFF;
+    padding: 15px;
+    width: 400px;
+    margin: 10px; 
+}

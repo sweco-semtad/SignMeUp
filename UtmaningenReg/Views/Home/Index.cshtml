@@ -1,0 +1,39 @@
+﻿@model UtmaningenReg.Models.RegIndexContainer
+
+@{Layout = "~/Views/Shared/_SimpleLayout.cshtml"; }
+
+<h1>Totalt @Model.TotaltRegistreringar lag anmälda</h1>
+
+@if (!Request.IsAuthenticated)
+{   
+    foreach (var reggs in Model.Banor)
+    {
+    <h2>@reggs.Key (@reggs.Value.TotaltAntalBetalda)</h2>
+        
+        foreach (var klass in reggs.Value.AntalPerKlassBetalda)
+        {
+            <span>@klass.Key: @klass.Value</span>
+        }
+        
+        @Html.Partial("_RegList", reggs.Value.Registreringar.Where(reg => reg.HarBetalt || reg.Invoice != null))
+    }
+}
+else
+{
+    <text>@Html.ActionLink("Skapa anmälan", "Create") | @Html.ActionLink("Hantera rabattkoder", "Index", "Rabatt")</text>
+
+    foreach (var reggs in Model.Banor)
+    {
+        <h2>@reggs.Key (@reggs.Value.TotaltAntal)</h2>
+        foreach (var klass in reggs.Value.AntalPerKlass)
+        {
+             <div>@klass.Key: @klass.Value</div>
+        }
+        foreach (var kanot in reggs.Value.CountKanot)
+        {
+             <div>@kanot.Key: @kanot.Value</div>
+        }
+        <br />
+        @Html.Partial("_RegAdmList", reggs.Value.Registreringar)
+    }
+}

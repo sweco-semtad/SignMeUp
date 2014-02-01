@@ -1,0 +1,73 @@
+﻿@model UtmaningenReg.Invoice
+
+@if (TempData["Error"] != null)
+{
+    <p style="color: red;">@TempData["Error"]</p>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.Namn)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Namn)
+            @Html.ValidationMessageFor(model => model.Namn)
+        </div>
+    
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.Organisationsnummer)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Organisationsnummer)
+            @Html.ValidationMessageFor(model => model.Organisationsnummer)
+        </div>
+    
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.Box)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Box)
+            @Html.ValidationMessageFor(model => model.Box)
+        </div>
+    
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.Postadress)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Postadress)
+            @Html.ValidationMessageFor(model => model.Postadress)
+        </div>
+    
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.Postnummer)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Postnummer)
+            @Html.ValidationMessageFor(model => model.Postnummer)
+        </div>
+    
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.Postort)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Postort)
+            @Html.ValidationMessageFor(model => model.Postort)
+        </div>
+    
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.Att)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Att)
+        </div>
+        
+        <p>
+            <input type="submit" name="andra" value="Avbryt" class="cancel" />&nbsp;
+            &nbsp;
+            <input type="submit" name="betala" value="Bekräfta och skicka" />
+        </p>
+    
+}

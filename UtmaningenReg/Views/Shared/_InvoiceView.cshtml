@@ -1,0 +1,53 @@
+﻿@model UtmaningenReg.Invoice
+           
+@using (Html.BeginForm())
+{   
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Namn)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Namn)
+    </div>
+    
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Organisationsnummer)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Organisationsnummer)
+    </div>
+    
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Box)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Box)
+    </div>
+    
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Postadress)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Postadress)
+    </div>
+    
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Postnummer)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Postnummer)
+    </div>
+    
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Postort)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Postort)
+    </div>
+    
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Att)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Att)
+    </div>
+}

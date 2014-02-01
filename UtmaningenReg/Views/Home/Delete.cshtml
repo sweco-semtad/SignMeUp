@@ -1,0 +1,23 @@
+﻿@model UtmaningenReg.Registreringar
+
+@using UtmaningenReg.Helpers
+
+@{
+    ViewBag.Title = "Ta bort";
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+}
+
+<h2>Ta bort</h2>
+
+<h3>Är du säker på att du vill ta bort detta lag?</h3>
+
+@Html.Partial("_DetailsView", Model)
+
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Ta bort" />
+        |
+        @Html.ActionLink("Tillbaka till listan", "Index")
+    </p>
+}

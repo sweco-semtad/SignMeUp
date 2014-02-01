@@ -1,0 +1,10 @@
+﻿@model UtmaningenReg.Registreringar
+
+@Html.Partial("_DetailsView", Model)
+
+@{Layout = "~/Views/Shared/_SimpleLayout.cshtml"; }
+
+<p class="knappar">
+    @Html.ActionLink("Tillbaka till listan", "Index") |
+    @Html.ActionLink("Uppdatera", "Edit", new { id = Model.ID })
+</p>

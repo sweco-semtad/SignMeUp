@@ -1,0 +1,27 @@
+﻿@model UtmaningenReg.Deltagare
+       
+<div class="deltagare">
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Förnamn)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Förnamn)
+        @Html.ValidationMessageFor(model => model.Förnamn)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Efternamn)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Efternamn)
+        @Html.ValidationMessageFor(model => model.Efternamn)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Personnummer, "Personnummer (enbart för ranking i Svenska Multisportcupen)")
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Personnummer)
+        @Html.ValidationMessageFor(model => model.Personnummer)
+    </div>
+</div>

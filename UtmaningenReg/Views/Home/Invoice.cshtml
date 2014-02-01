@@ -1,0 +1,123 @@
+﻿@model UtmaningenReg.Registreringar
+
+@using UtmaningenReg.Helpers
+
+@{
+    ViewBag.Title = "Faktura";
+    Layout = "~/Views/Shared/_FakturaLayout.cshtml";
+}
+    <div class="header">
+        <div class="imageHeader">
+            <img src="@Url.Content("~/Content/Images/Utmaningen_logo.png")" alt="UTMANINGEN 2013"/>
+        </div>
+        <div class="rightheader">
+            <h2>FAKTURA</h2>
+            @{
+                var today = DateTime.Now;
+                var forfallodatum = today.AddDays(30);
+            }
+            <p>
+                Fakturanummer <strong>2013 @Model.ID</strong><br />
+                Fakturadatum <strong>@String.Format("{0:yyyy-MM-dd}", today)</strong><br />
+                Betalningsvillkor <strong>30 dagar</strong>
+            </p>
+        </div>
+    </div>
+
+    <div class="box">
+        <h3>Fakturaadress</h3>
+        Företag <strong>@Html.DisplayFor(model => model.Invoice.Namn)</strong><br />
+        Organisationsnummer <strong>@Html.DisplayFor(model => model.Invoice.Organisationsnummer)</strong><br />
+        @if (Model.Invoice.Att != null)
+        {
+            <text>Att <strong>@Html.DisplayFor(model => model.Invoice.Att)</strong></text><br />
+        }
+        @if (Model.Invoice.Box != null)
+        {
+            <text>Box <strong>@Html.DisplayFor(model => model.Invoice.Box)</strong></text><br />
+        }
+        Postadress <strong>@Html.DisplayFor(model => model.Invoice.Postadress), @Html.DisplayFor(model => model.Invoice.Postnummer), @Html.DisplayFor(model => model.Invoice.Postort)</strong><br />
+        Land <strong>Sverige</strong>
+
+        <h3>Leveransbeskrivning</h3>
+        Lagnamn @Html.DisplayFor(model => model.Lagnamn)<br />
+
+        Deltagare:<br />
+        @foreach (var delt in Model.Deltagare)
+        { 
+            @delt.Förnamn<text>&nbsp;</text>@delt.Efternamn<br />
+        }
+    </div>
+
+    <div class="betala">
+        <table>
+            <tr><th>Art</th><th>Vara</th><th>Summa</th></tr>
+            <tr>
+                <td>Bana</td>
+                <td>@Html.DisplayFor(model => model.Banor.Namn)</td>
+                <td>@Html.DisplayFor(model => model.Banor.Avgift) kr</td>
+            </tr>
+            <tr>
+                <td>Kanot</td>
+                <td>@Html.DisplayFor(model => model.Kanoter.Namn)</td>
+                <td>@Html.DisplayFor(model => model.Kanoter.Avgift) kr</td>
+            </tr>
+            @if (Model.Forseningsavgift > 0)
+            {
+            <tr>
+                <td>Övriga avgifter</td>
+                <td>Förseningsavgift</td>
+                <td>@Html.DisplayFor(model => model.Forseningsavgift) kr</td>
+            </tr>
+            }
+        </table>
+        
+        <h2>Att betala: @Avgift.Kalk(Model) SEK</h2>
+        
+        <p>Betala avgiften till Karlstad Multisport Plusgirokonto <strong>184920-7</strong>. Tillhanda Karlstad Multisport senast @String.Format("{0:yyyy-MM-dd}", forfallodatum).</p>
+
+    </div>
+    
+    <div class="kontaktuppgifter">
+        <table>
+            <tr>
+                <th>Adress</th>
+                <th>Telefon</th>
+                <th>Postgiro</th>
+                <th>Organisationsnummer</th>
+            </tr>
+            <tr>
+                <td>Karlstad Multisport</td>
+                <td>0703-20 83 46</td>
+                <td>18 49 20-7</td>
+                <td>874001-7358</td>
+             </tr>
+             <tr>
+                <td>c/o Olof Solberg</td>
+                <td></td>
+                <td></td>
+                <th>IBAN</th>
+             </tr>
+             <tr>
+                <td>Piparens gata 5A</td>
+                <th>E-post</th>
+                <td></td>
+                <td>SE40 9500 0099 6026 0184 9207</td>
+             </tr>
+             <tr>
+                <td>653 48 Karlstad</td>
+                <td colspan="2"><a href=mailto:olof@karlstadmultisport.se">olof@karlstadmultisport.se</a></td>
+                <th>BIC-code (SWIFT-address)</th>
+             </tr>
+             <tr>
+                <td colspan="3"></td>
+                <td>NDEASESS</td>
+             </tr>
+        </table>
+    </div>
+
+<p class="knappar">
+    @Html.ActionLink("Tillbaka till listan", "Index") |
+    @Html.ActionLink("Uppdatera", "Edit", new { id = Model.ID }) |
+    <a href="javascript:window.print()">Skriv ut</a>
+</p>

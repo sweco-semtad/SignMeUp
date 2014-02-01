@@ -1,0 +1,14 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+}
+
+    <h2>Ursäkta, ett fel har inträffat.</h2><br />
+    <br />
+    <h4>Administratör är kontaktad. För att underlätta felsökning ber vi dig skicka ett meddelande till <a href="mailto:utmaningen@karlstadmultisport.se">utmaningen@karlstadmultisport.se</a>.
+    Beskriv vad du gjorde när felet uppstod och vad som hände med applikationen. Du kommer att få fortlöpande information om hur det går med felrättningen.</h4>
+
+    <p>@Html.ActionLink("Lista på anmälda lag", "Index", "Home")</p>
+    <p>@Html.ActionLink("Anmäla ett lag", "Create", "Home")</p>

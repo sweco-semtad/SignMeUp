@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>PaysonApiIntegrationDotNet</id>
+    <version>1.1.1</version>
+    <title>Payson Api Integration</title>
+    <authors>Payson</authors>
+    <owners>Payson</owners>
+    <projectUrl>https://github.com/PaysonAB</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Payson API library to help integration against the Payson API</description>
+    <copyright>Copyright © Payson 2012</copyright>
+    <references>
+      <reference file="PaysonIntegration.dll" />
+    </references>
+  </metadata>
+</package>

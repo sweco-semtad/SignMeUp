@@ -1,0 +1,29 @@
+﻿@model UtmaningenReg.Registreringar
+@using UtmaningenReg
+@using UtmaningenReg.Helpers
+
+@{Layout = "~/Views/Shared/_SimpleLayout.cshtml"; }
+
+@using (Html.BeginForm())
+{
+        <div>
+        <h3>Kontrollera dina uppgifter nedan och klicka sedan på Betala. Om något inte stämmer klicka då på Ändra.</h3>
+        </div>
+        
+    @Html.Partial("_DetailsView", Model)
+        
+        <p>
+            <input type="submit" name="button" value="Ändra" class="cancel"/>&nbsp;
+            @if (Request.IsAuthenticated)
+            {
+                @:<input type="submit" name="button" value="Klar" />&nbsp;
+            }
+            else
+            {
+                @:<input type="submit" name="button" value="Betala"/>&nbsp;
+            }
+            <input type="submit" name="button" value="Faktura *" />
+        </p>
+        <p>*Faktura kan enbart skickas till företagskunder.</p>
+    
+}

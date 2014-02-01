@@ -1,0 +1,35 @@
+﻿@model UtmaningenReg.Rabatt
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@{
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+}
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Rabatt</legend>
+
+    <div class="display-label">Kod</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Kod)
+    </div>
+
+    <div class="display-label">Summa</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Summa)
+    </div>
+
+    <div class="display-label">Beskrivning</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Beskrivning)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

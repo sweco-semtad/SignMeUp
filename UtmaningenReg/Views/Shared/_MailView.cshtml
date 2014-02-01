@@ -1,0 +1,63 @@
+﻿@model UtmaningenReg.Registreringar
+@using UtmaningenReg
+@using System.Collections.Specialized;
+@using UtmaningenReg.Helpers
+
+@{Layout = "~/Views/Shared/_SimpleLayoutWoLogin.cshtml"; }
+
+<div class="imageHeader">
+    <img src="@Url.Content("~/Content/Images/Utmaningen_logo.png")" alt="UTMANINGEN 2013"/>
+</div>
+
+<p>Kul att ni vill delta i Utmaningen 2013!</p>
+
+<p>Nedan kan du läsa de uppgifter som angavs i anmälan.</p>
+
+@Html.Partial("_DetailsView", Model)
+
+@if (Model.HarBetalt)
+{
+    <h3>Anmälan är redan betald!</h3>
+}
+
+<p>Vi ses i Karlstad den 24e augusti!<br />Karlstad Multisport</p>
+
+<p><strong>Kontaktuppgifter</strong>
+<div class="kontaktuppgifter">
+    <table>
+        <tr>
+            <th>Adress</th>
+            <th>Telefon</th>
+            <th>Postgiro</th>
+            <th>Organisationsnummer</th>
+        </tr>
+        <tr>
+            <td>Karlstad Multisport</td>
+            <td>0703-20 83 46</td>
+            <td>18 49 20-7</td>
+            <td>874001-7358</td>
+            </tr>
+            <tr>
+            <td>c/o Olof Solberg</td>
+            <td></td>
+            <td></td>
+            <th>IBAN</th>
+            </tr>
+            <tr>
+            <td>Piparens gata 5A</td>
+            <th>E-post</th>
+            <td></td>
+            <td>SE40 9500 0099 6026 0184 9207</td>
+            </tr>
+            <tr>
+            <td>653 48 Karlstad</td>
+            <td colspan="2"><a href="mailto:peter@karlstadmultisport.se">peter@karlstadmultisport.se</a></td>
+            <th>BIC-code (SWIFT-address)</th>
+            </tr>
+            <tr>
+            <td colspan="3"></td>
+            <td>NDEASESS</td>
+            </tr>
+    </table>
+</div>
+</p>

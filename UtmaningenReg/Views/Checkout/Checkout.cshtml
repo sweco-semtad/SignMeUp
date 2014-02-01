@@ -1,0 +1,45 @@
+@model UtmaningenReg.Models.CheckoutModel
+@using UtmaningenReg
+
+@{Layout = "~/Views/Shared/_SimpleLayout.cshtml"; }
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<h3>Fyll i uppgifter för betalning</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+        
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.SenderFirstName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SenderFirstName)
+            @Html.ValidationMessageFor(model => model.SenderFirstName)
+        </div>
+
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.SenderLastName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SenderLastName)
+            @Html.ValidationMessageFor(model => model.SenderLastName)
+        </div>
+
+        <div class="editor-label bold">
+            @Html.LabelFor(model => model.SenderEmail)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SenderEmail)
+            @Html.ValidationMessageFor(model => model.SenderEmail)
+        </div>
+        
+        <p>
+            <input type="submit" name="cancel" value="Avbryt" />&nbsp;
+            <input type="submit" name="betala" value="Gå vidare" id="submitPayson" />
+        </p>
+    <p>Klicka enbart en gång på <strong>Gå vidare</strong>!</p>
+    
+}

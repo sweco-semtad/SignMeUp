@@ -1,0 +1,156 @@
+﻿@using UtmaningenReg.Helpers
+
+@model IEnumerable<UtmaningenReg.Registreringar>
+
+@if (Model.Count() == 0)
+{
+    <div class="no-regs">
+        Inga lag anmälda</div>
+}
+else
+{
+    <table>
+        <tr>
+            <th>
+                Start#
+            </th>
+            <th>
+                Ref#
+            </th>
+            <th>
+                Lag
+            </th>
+            <th>
+                Deltagare
+            </th>
+            <th>
+                Kanot
+            </th>
+            <th>
+                Klubb
+            </th>
+            <th>
+                Klass
+            </th>
+            <th>
+                Rabatt
+            </th>
+            <th>
+                Att betala
+            </th>
+            <th>
+                Betalt
+            </th>
+            <th>
+                Har fakt.adress?
+            </th>
+            <th>
+                Telefon
+            </th>
+            <th>
+                Epost
+            </th>
+            <th>
+                Ranking
+            </th>
+            <th>
+                Förs.avg
+            </th>
+            <th>
+                Reg.tid
+            </th>
+            <th>
+                Kommentar
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Startnummer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lagnamn)
+                </td>
+                <td>
+                   @foreach (var delt in item.Deltagare)
+                    {
+                        if (!string.IsNullOrEmpty(delt.Förnamn))
+                        {   
+                            @delt.Förnamn<text>&nbsp;</text>@delt.Efternamn
+                        }
+                        <br />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kanoter.Namn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Klubb)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Klasser.Namn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rabatt)
+                </td>
+                <td>
+                    @Avgift.Kalk(item)
+                </td>
+                <td>
+                    @{if (item.HarBetalt != null && item.HarBetalt)
+                      {
+                          <div>Ja</div>
+                      }
+                      else
+                      {
+                           <div class='nopay'>Nej</div>
+                      }
+                     }          
+                </td>
+                <td>
+                    @{if (item.Invoice != null)
+                      {
+                          <div class='nopay'>Ja</div>
+                      }
+                      else
+                      {
+                           <div>Nej</div>
+                      }
+                     }          
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Epost)
+                </td>
+                <td>
+                    @(item.Ranking ? "Ja" : "Nej")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Forseningsavgift)
+                </td>
+                <td>
+                    @String.Format("{0:yyyy-d-M hh:mm}", item.Registreringstid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kommentar)
+                </td>
+                <td>
+                    @Html.ActionLink("Updatera", "Edit", new { id = item.ID })&nbsp;|&nbsp;@Html.ActionLink("Detaljer", "Details", new { id = item.ID })<br />
+                    @if (item.Invoice != null)
+                    {
+                            @Html.ActionLink("Faktura", "Invoice", new { id = item.ID })@:&nbsp;|&nbsp;
+                        }
+                    @Html.ActionLink("Ta bort", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+    </table>
+}

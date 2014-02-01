@@ -1,0 +1,52 @@
+﻿@model IEnumerable<UtmaningenReg.Registreringar>
+
+@if (Model.Count() == 0) {
+    <div class="no-regs">Inga lag anmälda</div>
+    }
+else {
+<table>
+    <tr>
+        <th>
+            Startnummer
+        </th>
+        <th>
+            Lagnamn
+        </th>
+        <th>
+            Deltagare 1
+        </th>
+        <th>
+            Deltagare 2
+        </th>
+        <th>
+            Klubb
+        </th>
+        <th>
+            Klass
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Startnummer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lagnamn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.P1Förnamn) @Html.DisplayFor(modelItem => item.P1Efternamn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.P2Förnamn) @Html.DisplayFor(modelItem => item.P2Efternamn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Klubb)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Klasser.Namn)
+            </td>
+        </tr>
+    }
+</table>
+}

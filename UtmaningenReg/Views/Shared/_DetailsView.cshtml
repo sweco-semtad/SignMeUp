@@ -1,0 +1,170 @@
+﻿@model UtmaningenReg.Registreringar
+@using UtmaningenReg
+@using System.Collections.Specialized;
+@using UtmaningenReg.Helpers
+
+@if (Request.IsAuthenticated)
+{
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.ID, "Referens#")
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.ID)
+</div>
+}
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Lagnamn)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Lagnamn)
+</div>
+
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Klubb)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Klubb)
+</div>
+
+<div class="editor-label bold">
+    <label for="editor-field">Deltagare</label>
+</div>
+<div class="editor-field">
+    @foreach (var delt in Model.Deltagare)
+    {
+        @delt.Förnamn<text>&nbsp;</text>@delt.Efternamn<br />
+    }
+</div>
+
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Klass)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Klasser.Namn)
+</div>
+
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Bana)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Banor.Namn) (@Html.DisplayFor(model => model.Banor.Avgift) kr)
+</div>
+    
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Kanot)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Kanoter.Namn) (@Html.DisplayFor(model => model.Kanoter.Avgift) kr)
+</div>
+
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Adress)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Adress)
+</div>
+
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Telefon)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Telefon)
+</div>
+
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Epost)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Epost)
+</div>
+
+@if (Model.Ranking)
+{
+<div class="ranking">
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Ranking, "Samtycker du till att listas i den nationella rankinglistan?")
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Ranking)
+    </div>
+
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Deltagare[0].Personnummer, "Personnummer 1")
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Deltagare[0].Personnummer)
+    </div>
+
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Deltagare[1].Personnummer, "Personnummer 2")
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Deltagare[1].Personnummer)
+    </div>
+    <div>
+        <a href="http://www.multisportforbundet.se/" target="_blank">Mer information om ranking i multisportcupen.</a>
+    </div>
+</div>
+}
+        
+@if (((int)ViewData["Forseningsavgift"]) > 0)
+{
+<div class="editor-label bold">
+    Avgift för sen anmälan
+</div>
+<div class="editor-field">
+    @ViewData["Forseningsavgift"] kr
+</div>
+}
+
+@if (Model.Rabatt > 0)
+{
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Rabatt)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Rabatt) kr
+</div>
+}
+
+@if (Request.IsAuthenticated)
+{
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Startnummer)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Startnummer)
+</div>
+    
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.Rabatt)
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.Rabatt)
+</div>
+    
+<div class="editor-label bold">
+    @Html.LabelFor(model => model.HarBetalt, "Har betalt")
+</div>
+<div class="editor-field">
+    @Html.DisplayFor(model => model.HarBetalt)
+</div>
+    if (Model.Invoice != null)
+    {
+    <div class="ranking">
+    <h3>Faktureringsadress</h3>
+    @Html.Partial("_InvoiceView", Model.Invoice)
+    </div>
+    }
+    else
+    {
+    <div class="editor-label bold">
+        @Html.LabelFor(model => model.Invoice, "Har fakturaadress")
+    </div>
+    <div class="editor-field">
+        Nej
+    </div>
+    }
+} @* end if (IsAuthenticated)*@
+
+<div><h3>Att betala: @Avgift.Kalk(Model) kr</h3></div>

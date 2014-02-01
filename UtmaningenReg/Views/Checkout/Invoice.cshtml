@@ -1,0 +1,15 @@
+﻿@model UtmaningenReg.Invoice
+
+@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<h3>Fyll i uppgifter för fakturering</h3>
+
+<p>Enbart företag kan faktureras. Om du ska betala privat klickar du på Avbryt för att återgå till formuläret.</p>
+
+@Html.Partial("_InvoiceEditView", Model)

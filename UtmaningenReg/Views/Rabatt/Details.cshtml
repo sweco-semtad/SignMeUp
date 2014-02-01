@@ -1,0 +1,32 @@
+﻿@model UtmaningenReg.Rabatt
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@{
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+}
+
+<fieldset>
+    <legend>Rabatt</legend>
+
+    <div class="display-label">Kod</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Kod)
+    </div>
+
+    <div class="display-label">Summa</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Summa)
+    </div>
+
+    <div class="display-label">Beskrivning</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Beskrivning)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,8 @@
+﻿@model Dictionary<UtmaningenReg.Banor, List<UtmaningenReg.Registreringar>>
+           
+@{Layout = "~/Views/Shared/_SimpleLayout.cshtml"; }
+
+@foreach(var reggs in Model) {
+        <h1>@reggs.Key.Namn (@Model.Count)</h1>
+        @Html.Partial("_RegStartList", reggs.Value)
+    }
