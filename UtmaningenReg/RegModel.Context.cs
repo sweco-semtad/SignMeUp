@@ -132,5 +132,6 @@ namespace UtmaningenReg
         private ObjectSet<Rabatt> _rabatter;
 
         #endregion
+
     }
 }

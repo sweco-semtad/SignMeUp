@@ -87,6 +87,7 @@ namespace UtmaningenReg
         private string _beskrivning;
 
         #endregion
+
         #region ChangeTracking
     
         protected virtual void OnPropertyChanged(String propertyName)
@@ -167,5 +168,6 @@ namespace UtmaningenReg
         }
 
         #endregion
+
     }
 }

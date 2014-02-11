@@ -72,6 +72,7 @@ namespace UtmaningenReg
         private System.DateTime _datum;
 
         #endregion
+
         #region ChangeTracking
     
         protected virtual void OnPropertyChanged(String propertyName)
@@ -152,5 +153,6 @@ namespace UtmaningenReg
         }
 
         #endregion
+
     }
 }

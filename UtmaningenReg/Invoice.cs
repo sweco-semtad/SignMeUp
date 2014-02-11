@@ -148,6 +148,7 @@ namespace UtmaningenReg
         private string _att;
 
         #endregion
+
         #region Navigation Properties
     
         [DataMember]
@@ -168,6 +169,7 @@ namespace UtmaningenReg
         private Registreringar _registreringar;
 
         #endregion
+
         #region ChangeTracking
     
         protected virtual void OnPropertyChanged(String propertyName)
@@ -260,6 +262,7 @@ namespace UtmaningenReg
         }
 
         #endregion
+
         #region Association Fixup
     
         private void FixupRegistreringar(Registreringar previousValue)
@@ -314,5 +317,6 @@ namespace UtmaningenReg
         }
 
         #endregion
+
     }
 }

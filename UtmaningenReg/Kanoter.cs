@@ -73,6 +73,7 @@ namespace UtmaningenReg
         private Nullable<int> _avgift;
 
         #endregion
+
         #region Navigation Properties
     
         [DataMember]
@@ -111,6 +112,7 @@ namespace UtmaningenReg
         private TrackableCollection<Registreringar> _registreringar;
 
         #endregion
+
         #region ChangeTracking
     
         protected virtual void OnPropertyChanged(String propertyName)
@@ -192,6 +194,7 @@ namespace UtmaningenReg
         }
 
         #endregion
+
         #region Association Fixup
     
         private void FixupRegistreringar(object sender, NotifyCollectionChangedEventArgs e)
@@ -234,5 +237,6 @@ namespace UtmaningenReg
         }
 
         #endregion
+
     }
 }

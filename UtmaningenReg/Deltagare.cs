@@ -103,6 +103,7 @@ namespace UtmaningenReg
         private int _registreringarID;
 
         #endregion
+
         #region ChangeTracking
     
         protected virtual void OnPropertyChanged(String propertyName)
@@ -183,5 +184,6 @@ namespace UtmaningenReg
         }
 
         #endregion
+
     }
 }

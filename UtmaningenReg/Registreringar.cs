@@ -311,6 +311,7 @@ namespace UtmaningenReg
         private string _paysonToken;
 
         #endregion
+
         #region Navigation Properties
     
         [DataMember]
@@ -417,6 +418,7 @@ namespace UtmaningenReg
         private TrackableCollection<Deltagare> _deltagare;
 
         #endregion
+
         #region ChangeTracking
     
         protected virtual void OnPropertyChanged(String propertyName)
@@ -502,6 +504,7 @@ namespace UtmaningenReg
         }
 
         #endregion
+
         #region Association Fixup
     
         private void FixupBanor(Banor previousValue)
@@ -704,5 +707,6 @@ namespace UtmaningenReg
         }
 
         #endregion
+
     }
 }
