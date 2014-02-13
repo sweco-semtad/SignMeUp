@@ -4,4 +4,6 @@
 
 /UtmaningenReg/bin
 /UtmaningenReg/obj/Debug
-/packages
+/UtmaningenReg/obj/Release
+/UtmaningenReg/Log
+*.suo

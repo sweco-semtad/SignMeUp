@@ -1,0 +1,10 @@
+﻿@model System.DateTime
+@{
+    ViewBag.Title = "Anmälan har inte öppnat";
+    Layout = "~/Views/Shared/_SimpleLayoutWoLogin.cshtml";
+}
+
+<div style="width: 100%; height: 300px; text-align: center;">
+    <h3>Anmälan har ännu inte öppnat för i år!</h3>
+    <span>I år öppnar anmälan @Model.ToString("d\\/M kl HH:mm")</span>
+</div>
