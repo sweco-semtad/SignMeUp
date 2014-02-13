@@ -194,23 +194,18 @@ div#title {
     display: block;
     text-align: right;
     margin: 10px;
-    color: White;
+    color: black;
     height: 0px;
 }
 
 #logindisplay a:link {
-    color: white;
-    text-decoration: underline;
-}
-
-#logindisplay a:visited {
-    color: white;
-    text-decoration: underline;
+    color: black;
+    text-decoration: none;
 }
 
 #logindisplay a:hover {
-    color: white;
-    text-decoration: none;
+    color: grey;
+    text-decoration: underline;
 }
 
 /* Styles for validation helpers

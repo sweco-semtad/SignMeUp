@@ -51,10 +51,16 @@ namespace UtmaningenReg.Controllers
         // GET: /Reg/Create
         public ActionResult Create()
         {
+            var start = db.StartOchSlut.Where(startSlut => startSlut.Namn == "Start").FirstOrDefault();
+            if (start != null && DateTime.Now < start.Datum && !Request.IsAuthenticated)
+            {
+                return View("RegNotOpen", start.Datum);
+            }
+
             var slut = db.StartOchSlut.Where(startSlut => startSlut.Namn == "Slut").FirstOrDefault();
             if (slut != null && DateTime.Now >= slut.Datum && !Request.IsAuthenticated)
             {
-                return RedirectToAction("RegClosed");
+                return View("RegClosed");
             }
 
             FillViewData();

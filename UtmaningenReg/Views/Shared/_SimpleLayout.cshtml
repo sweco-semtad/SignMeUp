@@ -11,9 +11,15 @@
 </head>
 <body>
     <div class="page">
-        <div id="logindisplay">action, string controllerName, object routeValues, string imagePath, string alt)
-            @Html.ActionImage("LogOn", "Account", "", "~/Content/Images/key.jpg", "Logga in")
-        </div>
+        @if (Request.IsAuthenticated)
+        {
+            <div id="logindisplay">
+                <text>
+                    Hej <strong>@User.Identity.Name</strong>!
+                    [ @Html.ActionLink("Log Off", "LogOff", "Account") ]
+                </text>
+            </div>
+        }
         <section id="main">
         @RenderBody()
         </section>

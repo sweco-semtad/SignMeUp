@@ -70,14 +70,14 @@ namespace UtmaningenReg.Controllers
                 //var ipnNotificationUrl = Url.Action("IPN", "Checkout", new RouteValueDictionary(), "http", host)/*.Replace(oldPort, "")*/ + "?reg=" + checkout.RegId;
 
                 var sender = new Sender(checkout.SenderEmail);
-                sender.SetFirstName(checkout.SenderFirstName);
-                sender.SetLastName(checkout.SenderLastName);
+                sender.FirstName = checkout.SenderFirstName;
+                sender.LastName = checkout.SenderLastName;
 
                 var totalAmount = Avgift.Kalk(checkout.Registrering);
 
                 var receiver = new Receiver(CheckoutModel.PaysonRecieverEmail, totalAmount);
-                receiver.SetFirstName(CheckoutModel.PaysonRecieverFirstName);
-                receiver.SetLastName(CheckoutModel.PaysonRecieverLastName);
+                receiver.FirstName = CheckoutModel.PaysonRecieverFirstName;
+                receiver.LastName = CheckoutModel.PaysonRecieverLastName;
                 receiver.SetPrimaryReceiver(true);
 
                 var payData = new PayData(returnUrl, cancelUrl, "Utmaningen 2013 - " + checkout.Registrering.Lagnamn, sender, new List<Receiver> { receiver });
@@ -90,7 +90,7 @@ namespace UtmaningenReg.Controllers
 
                 var api = new PaysonApi(CheckoutModel.PaysonUserId, CheckoutModel.PaysonUserKey, null);
     #if DEBUG
-                api = new PaysonApi(CheckoutModel.PaysonUserId, CheckoutModel.PaysonUserKey, ApplicationId, true);
+                api = new PaysonApi("4", "2acab30d-fe50-426f-90d7-8c60a7eb31d4", ApplicationId, true);
     #endif
 
                 var response = api.MakePayRequest(payData);
@@ -135,7 +135,7 @@ namespace UtmaningenReg.Controllers
 
             var api = new PaysonApi(CheckoutModel.PaysonUserId, CheckoutModel.PaysonUserKey, null);
 #if DEBUG
-            api = new PaysonApi(CheckoutModel.PaysonUserId, CheckoutModel.PaysonUserKey, ApplicationId, true);
+            api = new PaysonApi("4", "2acab30d-fe50-426f-90d7-8c60a7eb31d4", ApplicationId, true);
 #endif
             var response = api.MakePaymentDetailsRequest(new PaymentDetailsData(registration.PaysonToken));
 
