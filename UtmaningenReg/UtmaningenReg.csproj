@@ -72,7 +72,7 @@
     </Reference>
     <Reference Include="PaysonIntegration, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\PaysonApiIntegrationDotNet.1.2.0\lib\PaysonIntegration.dll</HintPath>
+      <HintPath>..\packages\PaysonApiIntegrationDotNet.1.21\lib\PaysonIntegration.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />

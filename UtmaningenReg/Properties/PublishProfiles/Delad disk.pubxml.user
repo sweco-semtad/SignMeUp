@@ -5,6 +5,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TimeStampOfAssociatedLegacyPublishXmlFile>2014-02-11T22:35:33.6093285+01:00</TimeStampOfAssociatedLegacyPublishXmlFile>
+    <TimeStampOfAssociatedLegacyPublishXmlFile>2014-06-26T10:38:25.1911065+02:00</TimeStampOfAssociatedLegacyPublishXmlFile>
   </PropertyGroup>
 </Project>

@@ -31,6 +31,25 @@ namespace UtmaningenReg.Controllers
             }
         }
 
+        protected void SetAsPaid(Registreringar registration)
+        {
+            registration.HarBetalt = true;
+            SaveChanges(registration);
+
+            try
+            {
+                FillViewData();
+                var appUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+                var link = appUrl + "home/mail/" + registration.ID;
+                SendMail.SendRegistration(RenderRazorViewToString("_MailView", registration), appUrl, link, registration.Epost);
+                log.Debug("Sent confirmation mail. Lagnamn: " + registration.Lagnamn);
+            }
+            catch (Exception exc)
+            {
+                log.Error("Unable to send confirmation mail.", exc);
+            }
+        }
+
         protected void SaveNewRegistration(Registreringar reg = null)
         {
             if (reg == null)
@@ -125,13 +144,20 @@ namespace UtmaningenReg.Controllers
         protected ActionResult ShowError(string logMessage, Exception exception = null)
         {
             log.Error(logMessage, exception);
-            if (exception != null)
+            try
             {
-                SendMail.SendErrorMessage(logMessage + "\n\n" + exception.Message + "\n\n" + exception.StackTrace);
+                if (exception != null)
+                {
+                    SendMail.SendErrorMessage(logMessage + "\n\n" + exception.Message + "\n\n" + exception.StackTrace);
+                }
+                else
+                {
+                    SendMail.SendErrorMessage(logMessage);
+                }
             }
-            else
+            catch (Exception exc)
             {
-                SendMail.SendErrorMessage(logMessage);
+                log.Error("Error sending error mail.", exc);
             }
 
             //TempData["Error"] = "Fel vid anmälna. Administratör är kontaktad. Vill du veta när felet blivit åtgärdat skicka gärna ett meddelande till utmaningen@karlstadmultisport.se";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace UtmaningenReg.Controllers
     public class CheckoutController : RegBaseController
     {
         // For testing only
-        private const string ApplicationId = "Payson Demo WebShop 1.0";
+        private const string ApplicationId = "Utmaningen anmälan";
 
         private readonly ILog log;
 
@@ -29,16 +30,20 @@ namespace UtmaningenReg.Controllers
         // GET: /Checkout/
         public ActionResult Checkout(string cancel, string betala)
         {
+            log.Debug("Checkout");
+
             if (!string.IsNullOrEmpty(betala))
             {
                 return RedirectToAction("Pay");
             }
             if (!string.IsNullOrEmpty(cancel))
             {
+                log.Debug("Checkout, cancel");
                 return RedirectToAction("Create", "Home");
             }
 
             var checkout = (CheckoutModel)Session["checkout"];
+            log.Debug("Checkout, lagnamn: " + checkout.Registrering.Lagnamn);
             return View(checkout);
         }
 
@@ -53,6 +58,8 @@ namespace UtmaningenReg.Controllers
                     return ShowError("Missing data, checkout or checkout.Registrering is null at Pay()");
                 }
 
+                log.Debug("Checkout, pay. Lagnamn: " + checkout.Registrering.Lagnamn);
+
                 SaveNewRegistration(checkout.Registrering);
                 FillRegistrering(checkout.Registrering);
 
@@ -62,12 +69,9 @@ namespace UtmaningenReg.Controllers
                 var scheme = Request.Url.Scheme;
                 var host = Request.Url.Host;
                 //var oldPort = Request.Url.Port.ToString();
-                var returnUrl = Url.Action("Returned", "Checkout", new RouteValueDictionary(), scheme, host)/*.Replace(oldPort, "")*/ + "?reg=" + checkout.RegId;
+                var returnUrl = Url.Action("Returned", "Checkout", new RouteValueDictionary(), scheme, host)/*.Replace(oldPort, "")*/ + "?regId=" + checkout.RegId;
 
                 var cancelUrl = Url.Action("Cancelled", "Checkout", new RouteValueDictionary(), scheme, host)/*.Replace(oldPort, "")*/;
-
-                // When the shop is hosted by Payson the IPN scheme must be http and not https
-                //var ipnNotificationUrl = Url.Action("IPN", "Checkout", new RouteValueDictionary(), "http", host)/*.Replace(oldPort, "")*/ + "?reg=" + checkout.RegId;
 
                 var sender = new Sender(checkout.SenderEmail);
                 sender.FirstName = checkout.SenderFirstName;
@@ -80,15 +84,43 @@ namespace UtmaningenReg.Controllers
                 receiver.LastName = CheckoutModel.PaysonRecieverLastName;
                 receiver.SetPrimaryReceiver(true);
 
-                var payData = new PayData(returnUrl, cancelUrl, "Utmaningen 2013 - " + checkout.Registrering.Lagnamn, sender, new List<Receiver> { receiver });
+                var payData = new PayData(returnUrl, cancelUrl, "Utmaningen 2014 - " + checkout.Registrering.Lagnamn, sender, new List<Receiver> { receiver });
 
-                var fundingConstraints = new List<FundingConstraint> { FundingConstraint.Bank, FundingConstraint.CreditCard };
+                // Set IPN callback URL
+                // When the shop is hosted by Payson the IPN scheme must be http and not https
+                var ipnNotificationUrl = Url.Action("IPN", "Checkout", new RouteValueDictionary(), scheme, host)/*.Replace(oldPort, "")*/ + "?regId=" + checkout.RegId;
+                payData.SetIpnNotificationUrl(ipnNotificationUrl);
 
-                payData.SetFundingConstraints(fundingConstraints);
-
+                payData.SetFundingConstraints(new List<FundingConstraint> { FundingConstraint.Bank, FundingConstraint.CreditCard });
                 payData.SetTrackingId(checkout.Registrering.ID.ToString());
 
-                var api = new PaysonApi(CheckoutModel.PaysonUserId, CheckoutModel.PaysonUserKey, null);
+                var orderItems = new List<PaysonIntegration.Utils.OrderItem>();
+                var reg = checkout.Registrering;
+                // Lägg in värden på kvitto
+                var oi1 = new PaysonIntegration.Utils.OrderItem("Utmaningen " + DateTime.Now.Year + ", bana " + reg.Banor.Namn);                    
+                oi1.SetOptionalParameters("st", 1, reg.Banor.Avgift, 0);
+                orderItems.Add(oi1);
+                if (reg.Kanoter.Avgift != 0)
+                {
+                    var oi2 = new PaysonIntegration.Utils.OrderItem("Kanot, " + reg.Kanoter.Namn);
+                    oi2.SetOptionalParameters("st", 1, (decimal)reg.Kanoter.Avgift, 0);
+                    orderItems.Add(oi2);
+                }
+                if (reg.Forseningsavgift != 0)
+                {
+                    var oi3 = new PaysonIntegration.Utils.OrderItem("Avgift för sen anmälan");
+                    oi3.SetOptionalParameters("st", 1, (decimal)reg.Forseningsavgift, 0);
+                    orderItems.Add(oi3);
+                }
+                if (reg.Rabatt != 0)
+                {
+                    var oi4 = new PaysonIntegration.Utils.OrderItem("Rabatt");
+                    oi4.SetOptionalParameters("st", 1, -(decimal)reg.Rabatt, 0);
+                    orderItems.Add(oi4);
+                }
+                payData.SetOrderItems(orderItems);
+
+                var api = new PaysonApi(CheckoutModel.PaysonUserId, CheckoutModel.PaysonUserKey, ApplicationId, false);
     #if DEBUG
                 api = new PaysonApi("4", "2acab30d-fe50-426f-90d7-8c60a7eb31d4", ApplicationId, true);
     #endif
@@ -102,67 +134,67 @@ namespace UtmaningenReg.Controllers
                     SaveChanges(checkout.Registrering);
 
                     var forwardUrl = api.GetForwardPayUrl(response.Token);
+                                        
+                    Session["checkout"] = checkout;
 
                     return Redirect(forwardUrl);
                 }
 
                 return ShowPaymentError("Error when sending payment to payson.", response.NvpContent, checkout.Registrering);
-
             }
             catch (Exception exception)
             {
+                log.Error("Exception in pay.", exception);
                 return ShowError("Error in Pay().", exception);
             }
         }
 
 
-        public ActionResult Returned()
-        {
-            var regId = Request.QueryString["reg"];
+        public ActionResult Returned(string regId)
+        {   
             int registrationId = -1;
+
+            log.Debug("Returned");
 
             if (!string.IsNullOrEmpty(regId) && !int.TryParse(regId, out registrationId))
             {
                 ShowError("regId not in querystring at checkout returned.");
             }
 
-            var registration = db.Registreringar.FirstOrDefault(reg => reg.ID == registrationId);
+            var registration = db.Registreringar.FirstOrDefault(regg => regg.ID == registrationId);
 
             if (registration == null)
             {
                 ShowError("No registration found in db with id: " + registrationId + " in checkout returned.");
             }
 
-            var api = new PaysonApi(CheckoutModel.PaysonUserId, CheckoutModel.PaysonUserKey, null);
+            log.Debug("Returned. Lagnamn: " + registration.Lagnamn);
+
+            // If no payment message has been sent (IPN)
+            if (!registration.HarBetalt)
+            {
+                var api = new PaysonApi(CheckoutModel.PaysonUserId, CheckoutModel.PaysonUserKey);
 #if DEBUG
-            api = new PaysonApi("4", "2acab30d-fe50-426f-90d7-8c60a7eb31d4", ApplicationId, true);
+                api = new PaysonApi("4", "2acab30d-fe50-426f-90d7-8c60a7eb31d4", ApplicationId, true);
 #endif
-            var response = api.MakePaymentDetailsRequest(new PaymentDetailsData(registration.PaysonToken));
+                var response = api.MakePaymentDetailsRequest(new PaymentDetailsData(registration.PaysonToken));
 
-            if (response.Success && (response.PaymentDetails.PaymentStatus == PaymentStatus.Completed ||
-                                    response.PaymentDetails.PaymentStatus == PaymentStatus.Pending))
-            {
-                registration.HarBetalt = true;
-                SaveChanges(registration);
-
-                try
+                if (response.Success && (response.PaymentDetails.PaymentStatus == PaymentStatus.Completed ||
+                                        response.PaymentDetails.PaymentStatus == PaymentStatus.Pending))
                 {
-                    FillViewData();
-                    var appUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
-                    var link = appUrl + "home/mail/" + registration.ID;
-                    SendMail.SendRegistration(RenderRazorViewToString("_MailView", registration), appUrl, link, registration.Epost);
+                    if (!registration.HarBetalt)
+                    {
+                        SetAsPaid(registration);
+                    }
                 }
-                catch (Exception exc)
+                else
                 {
-                    return ShowError("Unable to send confirmation mail", exc);
-                }
-            }
-            else
-            {
-                // Remove the temporary registration
-                DeleteRegistrering(registrationId);
+                    log.Warn("Deleting temp-registration with id: " + registrationId);
+                    // Remove the temporary registration
+                    DeleteRegistrering(registrationId);
 
-                return ShowPaymentError("Error when payment returned.", response.NvpContent, registration);
+                    return ShowPaymentError("Error when payment returned.", response.NvpContent, registration);
+                }
             }
 
             return RedirectToAction("Redirect", "Home");
@@ -173,34 +205,52 @@ namespace UtmaningenReg.Controllers
             return RedirectToAction("Create", "Home");
         }
 
-        //public ActionResult IPN(Guid regGuid)
-        //{
-        //    Request.InputStream.Position = 0;
-        //    var content = new StreamReader(Request.InputStream).ReadToEnd();
+        public ActionResult IPN(string regId)
+        {
+            log.Debug("IPN regId: " + regId);
 
-        //    var checkout = _repository.GetCheckout(regGuid);
+            int regIdInt = -1;
+            int.TryParse(regId, out regIdInt);
 
-        //    if (checkout != null)
-        //    {
-        //        var api = new PaysonApi(CheckoutModel.PaysonUserID, CheckoutModel.PaysonUserKey, ApplicationId, true);
-        //        var response = api.MakeValidateIpnContentRequest(content);
-        //        if (response.Success)
-        //        {
-        //            var status = response.ProcessedIpnMessage.PaymentStatus.HasValue
-        //                             ? response.ProcessedIpnMessage.PaymentStatus.ToString()
-        //                             : "N/A";
-        //            //checkout.Updates[DateTime.Now] = "IPN: " + status;
-        //            //checkout.LatestStatus = status;
-        //        }
-        //        else
-        //        {
-        //            //checkout.Updates[DateTime.Now] = "IPN: IPN Failure";
-        //            //checkout.LatestStatus = "Failure";
-        //        }
-        //    }
+            var registration = db.Registreringar.FirstOrDefault(regg => regg.ID == regIdInt);
 
-        //    return new EmptyResult();
-        //}
+            if (registration != null)
+            {
+                Request.InputStream.Position = 0;
+                var content = new StreamReader(Request.InputStream).ReadToEnd();
+
+                var api = new PaysonApi(CheckoutModel.PaysonUserId, CheckoutModel.PaysonUserKey, ApplicationId, true);
+                var response = api.MakeValidateIpnContentRequest(content);
+                var statusText = response.ProcessedIpnMessage.PaymentStatus.HasValue
+                                    ? response.ProcessedIpnMessage.PaymentStatus.ToString()
+                                    : "N/A";
+                var status = response.ProcessedIpnMessage.PaymentStatus;
+
+                log.Debug("IPN message content: " + response.Content);
+                log.Debug("IPN raw response: " + content);
+
+                if (status == PaymentStatus.Completed || status == PaymentStatus.Completed)
+                {
+                    log.Debug("IPN message, status: " + statusText + ". regId: " + regId + " success: " + response.Success);
+
+                    if (!registration.HarBetalt)
+                    {
+                        SetAsPaid(registration);
+                    }
+                }
+                else
+                {
+                    log.Debug("IPN message for non complete transaction. regId: " + regId + ". Status: " + statusText);
+                }
+            }
+            else
+            {
+                log.Error("Got IPN with wrong regId as query parameter: " + regId);
+                SendMail.SendErrorMessage("Got IPN with wrong regId as query parameter: " + regId);
+            }
+
+            return new EmptyResult();
+        }
 
         public ActionResult Invoice()
         {   
@@ -212,6 +262,8 @@ namespace UtmaningenReg.Controllers
         {
             try
             {
+                log.Debug("Invoice");
+
                 if (!string.IsNullOrEmpty(andra))
                 {
                     return RedirectToAction("Create", "Home");
@@ -229,11 +281,16 @@ namespace UtmaningenReg.Controllers
                     var appUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
                     var link = appUrl + "home/mail/" + reg.ID;
                     SendMail.SendRegistration(RenderRazorViewToString("_MailView", reg), appUrl, link, reg.Epost);
+                    log.Debug("Sent confirmation mail on invoice. Lagnamn: " + reg.Lagnamn);
                 }
                 catch (Exception exception)
                 {
                     log.Error("Error when sending acceptance mail for invoice.", exception);
-                    SendMail.SendErrorMessage("Error when sending acceptance mail for invoice.\n\n" + exception.Message + "\n\n" + exception.StackTrace);
+                    try
+                    {
+                        SendMail.SendErrorMessage("Error when sending acceptance mail for invoice.\n\n" + exception.Message + "\n\n" + exception.StackTrace);
+                    }
+                    catch {}
                 }
 
                 return RedirectToAction("Redirect", "Home");

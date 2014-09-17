@@ -9,7 +9,7 @@
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     $(document).ready(function () {
         $('#bana select').change(function () {
             
@@ -28,9 +28,9 @@
 
         });
     });
-</script>
+</script>*@
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "frm", id = "frm" }))
+@using (Html.BeginForm())
 {
     if (TempData["ValidationError"] != null)
     {
@@ -51,8 +51,6 @@
             Om felet återkommer, kontakta oss med hjälp av kontaktformuläret på sidan.
         </p>
     }
-    
-    <p>Ska du anmäla många lag ber vi dig skicka alla uppgifter till <a href="mailto:utmaningen@karlstadmultisport.se">utmaningen@karlstadmultisport.se</a></p>
     
     @Html.ValidationSummary(true)
         

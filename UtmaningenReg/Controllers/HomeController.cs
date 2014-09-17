@@ -98,16 +98,18 @@ namespace UtmaningenReg.Controllers
         [PreventSpam]
         public ActionResult Create(Registreringar registrering, string sendReg, string Bana, string rabattkod)
         {
+            log.Debug("New registration. Lagnamn: " + registrering.Lagnamn);
+
             try
             {
                 // Changed bana
-                if (!string.IsNullOrEmpty(Bana) && string.IsNullOrEmpty(sendReg))
-                {
-                    TrimDeltagare(registrering);
-                    FillViewData();
-                    Session["reg"] = registrering;
-                    return RedirectToAction("Create");
-                }
+                //if (!string.IsNullOrEmpty(Bana) && string.IsNullOrEmpty(sendReg))
+                //{
+                //    TrimDeltagare(registrering);
+                //    FillViewData();
+                //    Session["reg"] = registrering;
+                //    return RedirectToAction("Create");
+                //}
 
                 registrering.Registreringstid = DateTime.Now;
                 registrering.Forseningsavgift = Avgift.Forseningsavgift(db);
@@ -151,8 +153,10 @@ namespace UtmaningenReg.Controllers
         // GET: /AcceptReg/
         public ActionResult AcceptReg()
         {
+            var reg = (Registreringar)Session["reg"];
+            log.Debug("AcceptReg. Lagnamn: " + reg.Lagnamn);
             FillViewData();
-            return View(Session["reg"]);
+            return View(reg);
         }
 
         [HttpPost]
@@ -172,6 +176,8 @@ namespace UtmaningenReg.Controllers
 
                 if (!string.IsNullOrEmpty(button) && (button == "Betala" || button == "Klar"))
                 {
+                    log.Debug("AcceptReg Betala. Lagnamn: " + registrering.Lagnamn);
+
                     if (Request.IsAuthenticated)
                     {
                         SaveNewRegistration();
